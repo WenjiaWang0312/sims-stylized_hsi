@@ -1,1 +1,3 @@
-# sims-stylized_hsi
+# SIMS: Simulating Stylized Human-Scene Interactions with Retrieval-Augmented Script Generation
+
+Code and Data will come soon...
