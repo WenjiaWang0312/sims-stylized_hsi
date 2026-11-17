@@ -1,0 +1,94 @@
+params:
+  seed: -1
+  algo:
+    name: amp_multi
+  model:
+    name: amp
+  network:
+    name: amp
+    separate: true
+    space:
+      continuous:
+        mu_activation: None
+        sigma_activation: None
+        mu_init:
+          name: default
+        sigma_init:
+          name: const_initializer
+          val: -2.9
+        fixed_sigma: true
+        learn_sigma: false
+    mlp:
+      units:
+      - 1024
+      - 1024
+      - 512
+      activation: relu
+      d2rl: false
+      initializer:
+        name: default
+      regularizer:
+        name: None
+    disc:
+      units:
+      - 1024
+      - 1024
+      - 512
+      activation: relu
+      initializer:
+        name: default
+  load_checkpoint: false
+  config:
+    name: Humanoid
+    env_name: rlgpu
+    multi_gpu: false
+    ppo: true
+    mixed_precision: false
+    normalize_input: true
+    normalize_value: true
+    reward_shaper:
+      scale_value: 1
+    normalize_advantage: true
+    gamma: 0.99
+    tau: 0.95
+    learning_rate: 2e-5
+    lr_schedule: constant
+    score_to_win: 20000
+    max_epochs: 80000
+    save_best_after: 50
+    save_frequency: 50
+    print_stats: true
+    grad_norm: 1.0
+    entropy_coef: 0.0
+    truncate_grads: false
+    e_clip: 0.2
+    horizon_length: 32
+    minibatch_size: 16384
+    mini_epochs: 6
+    critic_coef: 5
+    clip_value: false
+    seq_len: 4
+    bounds_loss_coef: 10
+    amp_obs_demo_buffer_size: 200000
+    amp_replay_buffer_size: 200000
+    amp_replay_keep_prob: 0.01
+    amp_batch_size: 512
+    amp_minibatch_size: 4096
+    disc_coef: 5
+    disc_logit_reg: 0.01
+    disc_grad_penalty: 5
+    disc_reward_scale: 3
+    disc_weight_decay: 0.0001
+    normalize_amp_input: true
+    enable_eps_greedy: false
+    task_reward_w: 0.5
+    disc_reward_w: 0.5
+    llc_config: sims/data/cfg/train/rlg/amp_humanoid_task_disc.yaml
+    checkpoints:
+      sitdown: output/sit_s.pth
+      loco: output/loco.pth
+      touch: output/touch.pth
+      liedown: output/lie_s.pth
+      standup: output/standup.pth
+      getup: output/getup.pth
+      idle: output/idle.pth

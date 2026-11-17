@@ -1,0 +1,122 @@
+env:
+  envSpacing: 10
+  episodeLength: 3000
+  isFlagrun: false
+  enableDebugVis: false
+  successThreshold: 0.3
+  pdControl: true
+  powerScale: 1.0
+  controlFrequencyInv: 2
+  stateInit: Default
+  hybridInitProb: 0.5
+  numAMPObsSteps: 10
+  localRootObs: false
+  keyBodies:
+  - right_hand
+  - left_hand
+  - right_foot
+  - left_foot
+  contactBodies:
+  - right_foot
+  - left_foot
+  strikeBodyNames:
+  - pelvis
+  - head
+  - left_foot
+  - right_foot
+  - left_hand
+  - right_hand
+  terminationHeight: 0.25
+  enableEarlyTermination: false
+  enableSelfCollisionDetection: true
+  enableTrackInitState: false
+  task:
+    enableTaskObs: true
+    enableTaskUpdate: true
+    enableContact: true
+    maxFinishLengthDict:
+      loco: 30
+      sitdown: 150
+      liedown: 150
+      standup: 30
+      getup: 30
+      touch: 40
+      idle: 150
+    taskThreshold:
+      loco: 1
+      sitdown: 0.3
+      liedown: 0.3
+      standup: 0.7
+      getup: 0.7
+      touch: 0.5
+      idle: 1.2
+  motion_file:
+  - motion_data/samp/dataset_samp.yaml
+  boxSize:
+  - 0.4
+  - 0.4
+  - 0.4
+  condition:
+    enableConditionalDisc:
+      touch: false
+      loco: true
+      sitdown: true
+      liedown: true
+      getup: false
+      standup: false
+      idle: true
+    numClipDim: 512
+    numConditionDim: 64
+    motion_enc_ckpt: output/motionclip_hsi/latest.pth
+    motion_enc_ckpt_hsi: output/motionclip_hsi/latest.pth
+    motion_enc_ckpt_loco: output/motionclip_loco/latest.pth
+  skill:
+    skillInitProb:
+    - 1
+    skillDiscProb:
+    - 1
+    skillSampleProb:
+    - 1
+    skill:
+    - sitdown
+    - loco
+    - liedown
+    - touch
+    - standup
+    - getup
+    - idle
+  obj:
+    sceneDataRoot: scene_data/3dfront
+    transScale: 1.5
+    heightMapDim: 20
+    standpointScale: 1
+    objFile: scene_data/3dfront/model_info.json
+    probUnderground: 0.1
+    numObjPerScene: 1
+    objRadiusMin: 1.5
+    objRadiusMax: 3.0
+    objAngleOffset: 10.0
+    numMaxChildren: 4
+    numPlans: 4
+  asset:
+    assetRoot: sims/data/assets
+    assetFileName: mjcf/amp_humanoid.xml
+  plane:
+    staticFriction: 1.0
+    dynamicFriction: 1.0
+    restitution: 0.0
+sim:
+  substeps: 2
+  physx:
+    num_threads: 4
+    solver_type: 1
+    num_position_iterations: 4
+    num_velocity_iterations: 0
+    contact_offset: 0.02
+    rest_offset: 0.0
+    bounce_threshold_velocity: 0.2
+    max_depenetration_velocity: 10.0
+    default_buffer_size_multiplier: 10.0
+  flex:
+    num_inner_iterations: 10
+    warm_start: 0.25

@@ -1,0 +1,8 @@
+include README.md requirements.txt
+recursive-include scripts *.py
+recursive-include docs *.md *.json
+recursive-include examples *.yaml
+recursive-include third_party *.md *.txt
+recursive-include sims/data/cfg *.yaml
+recursive-include sims/data/assets/mjcf *.xml *.urdf
+global-exclude *.pyc

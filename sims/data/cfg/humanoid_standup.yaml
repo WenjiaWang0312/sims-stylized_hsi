@@ -1,0 +1,85 @@
+# if given, will override the device setting in gym. 
+env: 
+  # numEnvs: 4096
+  envSpacing: 10
+  episodeLength: 300
+  isFlagrun: False
+  enableDebugVis: False
+  
+  pdControl: True
+  powerScale: 1.0
+  controlFrequencyInv: 2 # 30 Hz
+  stateInit: "Default"
+  hybridInitProb: 0.5
+  numAMPObsSteps: 10
+
+  localRootObs: False
+  keyBodies: ["right_hand", "left_hand", "right_foot", "left_foot"]
+  contactBodies: ["right_foot", "left_foot"]
+  strikeBodyNames: ["pelvis", "head", "left_foot", "right_foot", "left_hand", "right_hand"]
+  terminationHeight: 0.25
+  enableEarlyTermination: True
+
+  enableSelfCollisionDetection: True
+  enableTrackInitState: False
+
+  task:
+    enableTaskObs: True
+    enableTaskUpdate: True
+    enableContact: True
+
+  motion_file: ["motion_data/samp/dataset_samp.yaml", "motion_data/vicon/dataset_vicon.yaml", "motion_data/couch/dataset_couch.yaml"]
+  
+  condition:
+    enableConditionalDisc: False
+    numClipDim: 512
+    numConditionDim: 64
+    motion_enc_ckpt: "output/motionclip_loco/latest.pth"
+  
+  skill:
+    skill: ["standup", "getup",  "sitdown", "liedown"]
+    skillInitProb: [0.25, 0.25, 0.25, 0.25]
+    skillDiscProb: [0.25, 0.25, 0.25, 0.25,]
+    skillSampleProb: [0.5, 0.5, 0, 0]
+    # skill: ["sitdown"]
+    # skillInitProb: [1]
+    # skillDiscProb: [1]
+    # skillSampleProb: [1]
+  obj:
+    allowedObjs: ["chair", "armchair", "sofa", "stool", "bed"]
+    heightMapDim: 20
+    standpointScale: 1.2
+    objFile: "scene_data/obj_info_3dfront.json"
+    numObjPerScene: 4
+    objRadiusMin: 3.0
+    objRadiusMax: 5.0
+    objAngleOffset: 10.0
+    probUnderground: 0.1
+    numMaxChildren: 4
+    numPlans: 64
+  
+  asset:
+    assetRoot: "sims/data/assets"
+    assetFileName: "mjcf/amp_humanoid.xml"
+
+  plane:
+    staticFriction: 1.0
+    dynamicFriction: 1.0
+    restitution: 0.0
+
+sim:
+  substeps: 2
+  physx:
+    num_threads: 4
+    solver_type: 1  # 0: pgs, 1: tgs
+    num_position_iterations: 4
+    num_velocity_iterations: 0
+    contact_offset: 0.02
+    rest_offset: 0.0
+    bounce_threshold_velocity: 0.2
+    max_depenetration_velocity: 10.0
+    default_buffer_size_multiplier: 10.0
+
+  flex:
+    num_inner_iterations: 10
+    warm_start: 0.25

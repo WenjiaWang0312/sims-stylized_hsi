@@ -1,0 +1,16 @@
+sceneJson: layouts/example_room.json
+maxEpisodeLength: 1500
+initLocation: chair1-0
+highLevelOrder:
+  - skill: loco
+    object: chair1
+    caption: A person walks happily toward the chair.
+    object_contact: []
+  - skill: sitdown
+    object: chair1
+    caption: A person sits down happily on the chair.
+    object_contact: [pelvis-seat-up]
+  - skill: standup
+    object: chair1
+    caption: A person stands up from the chair.
+    object_contact: []

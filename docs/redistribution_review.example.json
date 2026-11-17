@@ -1,0 +1,10 @@
+{
+  "datasets": {
+    "motion_data/vicon/dataset_vicon.yaml": {
+      "approved": false,
+      "reviewed_by": "",
+      "license": "",
+      "notes": "Confirm recording ownership, participant consent, processing dependencies, and intended release terms before approval."
+    }
+  }
+}
