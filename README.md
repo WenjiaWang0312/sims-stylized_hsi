@@ -35,12 +35,13 @@
 
 ![teaser](assets/teaser.png)
 
-## Overview
+## 🎬 Overview
 
-This repository provides the motion encoder, text-conditioned human-scene interaction
-policies, and finite-state-machine (FSM) execution code for SIMS (ICCV 2025).
+SIMS simulates how a character moves through a scene and interacts with furniture in a given style.
+With this code, you can train the motion encoder and individual controllers, then run a sequence
+such as walking to a chair, sitting down, and standing back up.
 
-## Scope
+## 🧩 What's included
 
 - Train the 125-feature, 300-frame motion autoencoder and its 512-to-64-dimensional CLIP text projection.
 - Train individual text-conditioned AMP controllers for locomotion, sitting, lying, and idle.
@@ -50,10 +51,9 @@ policies, and finite-state-machine (FSM) execution code for SIMS (ICCV 2025).
 
 LLM/RAG inference, automatic planning, carrying, paper evaluation suites, and rendering pipelines are outside this release.
 The FSM demo supports **one environment**; policy training supports parallel environments.
-Standup, getup, and touch retain the original configurations with conditional discrimination disabled;
-they should not be advertised as independently stylized text-conditioned policies.
+Standup, getup, and touch are supporting controllers. Their training configurations disable conditional discrimination.
 
-## Installation
+## 🛠️ Installation
 
 Use Python 3.8 and an NVIDIA GPU for Isaac Gym policy training and FSM execution.
 Install the separately obtained Isaac Gym package before running the controller.
@@ -73,13 +73,12 @@ python scripts/check_release.py --runtime
 ```
 
 The control code requires **rl-games==1.1.4**, not 1.6.1: it uses the older Runner/model-builder API.
-The original NVIDIA notices remain in source files; see [release status](docs/RELEASE_STATUS.md) before publishing.
-No blanket license for third-party code, data, body models, or pretrained weights is asserted here.
+See the [release notes](docs/RELEASE_STATUS.md) for NVIDIA notices and third-party licensing details.
 
-## Assets
+## 📦 Data and assets
 
-Motion datasets, scene assets, and model weights are distributed separately and are **not included in this GitHub repository**.
-External download locations will be added once the archives are published; they are not available from this code package yet.
+Download the [processed motion data from Hugging Face](https://huggingface.co/datasets/WenjiaWang/SIMS_data_release) (389 MiB)
+and extract the archive in the repository root. Scene assets and model weights are separate from this download.
 See [data preparation](docs/DATA.md) for the expected contents and directory structure.
 Run all commands from the `sims-stylized_hsi` repository root.
 
@@ -101,7 +100,7 @@ This generates the metadata, collision meshes, point clouds, and contact labels 
 It does not generate reference motions, train a useful policy, or replace the paper's benchmark scenes.
 The generator refuses to overwrite an existing scene dataset.
 
-## Train MotionCLIP
+## 🧠 Train MotionCLIP
 
 ```bash
 python -m sims.learning.sims_motion_enc_trainer \
@@ -122,7 +121,7 @@ Use `--device cpu` for a small encoder smoke test only.
 Every completed run writes `latest.pth`, including when the final epoch is not a save-interval multiple.
 These are plain state dictionaries compatible with the policy loader; training options are saved in `args.json`.
 
-## Train Controllers
+## 🏃 Train the controllers
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 python scripts/train_policy.py loco --name loco
@@ -141,7 +140,7 @@ Resume with `--checkpoint /path/to/model.pth`. Inspect a trained skill with
 `--test --checkpoint /path/to/model.pth --num-row 1 --num-col 1`.
 Forwarded runner arguments, such as `--max_iterations`, are supported.
 
-## Execute a Text-Controlled FSM Plan
+## 🎮 Run the walk–sit–stand example
 
 1. Set the trained policy paths in `sims/data/cfg/train/rlg/sims_humanoid.yaml`.
 2. Set encoder/scene paths in `sims/data/cfg/humanoid_sims_3dfront.yaml`.
@@ -155,9 +154,9 @@ Only policies referenced by the plan are loaded. This example needs loco, sitdow
 The existing task-success thresholds and finish counters advance the FSM; changing the caption conditions the policy,
 but does not automatically infer a new skill, object, or plan.
 The final state is held until the episode ends. Recorded arrays are written to `render/<plan-name>.npz`.
-See [plan format](docs/PLANS.md) for the real schema, including contact conventions.
+To write your own sequence, see the [plan format and contact conventions](docs/PLANS.md).
 
-## Validation and Publication
+## 🔎 Check your setup
 
 `python scripts/check_release.py --assets` reports missing configured manifests, scene metadata, and checkpoints;
 it is a whole-release inventory, not a guarantee that all referenced meshes or every motion are valid.
@@ -165,7 +164,7 @@ Use the motion inventory tool for transitive motion dependencies.
 See [validation status](docs/RELEASE_STATUS.md) for checks performed, known limitations, and outstanding release requirements.
 The smoke tests do not establish full training convergence or reproduce the paper's reported metrics.
 
-# 🎓 Citation
+## 🎓 Citation
 
 If you find this project useful in your research, please consider citing us:
 
@@ -180,6 +179,6 @@ year = {2025}
 ```
 
 
-# 📧 Contact
+## 📧 Contact
 
-Feel free to contact me for other questions or cooperation: wwj2022@connect.hku.hk
+For questions about SIMS or research collaborations, email Wenjia Wang at wwj2022@connect.hku.hk.
